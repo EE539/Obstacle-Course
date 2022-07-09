@@ -6,9 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    public Animation standAnimation;
     private Animator m_Animator;
     private Rigidbody m_Rigidbody;
+    private Vector3 m_Position;
 
     private bool m_Running, m_LookAround, m_Dance;
     private float m_horizontalInput, waitTime = 19f, wait = 0f;
@@ -16,14 +16,20 @@ public class PlayerController : MonoBehaviour
 
     public InputActionAsset Map;
     InputActionMap gameplay;
-
-    InputAction startGame;
+    InputAction startGame, movePlayerHorizontal;
     private void Awake()
     {
         gameplay = Map.FindActionMap("Player");
         startGame = gameplay.FindAction("Start");
+        movePlayerHorizontal = gameplay.FindAction("Move");
 
         startGame.performed += StartGame_performed;
+        movePlayerHorizontal.performed += MovePlayerHorizontal_performed;
+    }
+
+    private void MovePlayerHorizontal_performed(InputAction.CallbackContext context)
+    {
+        m_horizontalInput = context.ReadValue<float>();
     }
 
     private void StartGame_performed(InputAction.CallbackContext context)
@@ -45,6 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_Position = transform.position;
 
         m_Dance = false;
         m_LookAround = false;
@@ -54,7 +61,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!m_Running)
+        if (!m_Running) //Eðer oyun baþlamadýysa bekleme animasyonlarýný aktifleþtir
         {
             if(waitTime < wait && waitTime > 10)
             {
@@ -93,35 +100,12 @@ public class PlayerController : MonoBehaviour
             }
             wait += Time.deltaTime;
         }
-    
-    }
-
-    IEnumerator ChooseAnimation()
-    {
-        yield return new WaitForSeconds(waitTime);
-        choosenAnimation = Random.Range(0, 3);
-        if (choosenAnimation != 0 && !m_LookAround && !m_Dance)
+        else //Eðer kullanýcý oyunu baþlattýysa
         {
-            if (choosenAnimation == 1)
-            {
-                m_LookAround = true;
-                m_Animator.SetBool("Look Around", m_LookAround);
-                waitTime = 6.333f;
-            }
-            else if (choosenAnimation == 2)
-            {
-                m_Dance = true;
-                m_Animator.SetBool("Start Dance", m_Dance);
-                waitTime = 3.633f;
-            }
+
+                transform.Translate(Vector3.right*m_horizontalInput*0.1f*Time.deltaTime);
         }
-        yield return new WaitForSeconds(waitTime);
-        waitTime = 13.933f;
-        choosenAnimation = 0;
-        m_LookAround = false;
-        m_Animator.SetBool("Look Around", m_LookAround);
-        m_Dance = false;
-        m_Animator.SetBool("Start Dance", m_Dance);
+    
     }
     
 }
