@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private Vector3 m_Position;
 
-    private bool m_Running, m_LookAround, m_Dance, m_Finish;
+    private bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail;
     private float m_horizontalInput, waitTime = 19f, wait = 0f;
     private int choosenAnimation = 0;
 
@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         m_Position = transform.position;
 
         m_Finish = false;
+        m_Fail = false;
         m_Dance = false;
         m_LookAround = false;
         m_Running = false;
@@ -106,22 +107,33 @@ public class PlayerController : MonoBehaviour
 
                 transform.Translate(Vector3.right*m_horizontalInput*05f*Time.deltaTime);
         }
+
+        if (m_Fail)
+        {
+            StartEndAnimation(1, 3, "fail", "Fail");
+        }
     
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        m_Running = false;
-        m_Animator.SetBool("Running", m_Running);
-        string winner = "win";
+        
         if (collision.gameObject.tag.Equals("Finish"))
         {
-            choosenAnimation = Random.Range(1, 6);
-            GetComponent<Rigidbody>().freezeRotation = true;
-            m_Finish = true;
-            m_Animator.SetBool("Finished", m_Finish);
-            winner = winner + choosenAnimation.ToString();
-            m_Animator.SetTrigger(winner);
+            Debug.Log("Entered");
+            StartEndAnimation(1, 6, "win", "Finished");
         }
+    }
+
+    void StartEndAnimation(int begin, int endPlusOne, string winOrFail, string whichAnimator)
+    {
+        m_Running = false;
+        m_Animator.SetBool("Running", m_Running);
+
+        choosenAnimation = Random.Range(begin, endPlusOne);
+        GetComponent<Rigidbody>().freezeRotation = true;
+        m_Animator.SetBool(whichAnimator, true);
+        winOrFail = winOrFail + choosenAnimation.ToString();
+        m_Animator.SetTrigger(winOrFail); 
     }
 }
