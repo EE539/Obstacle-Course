@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_Position;
 
     private bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail;
-    private float m_horizontalInput, waitTime = 19f, wait = 0f;
+    private float m_horizontalInput, waitTime = 19f, wait = 0f, speed = 0.5f;
     private int choosenAnimation = 0;
 
     public InputActionAsset Map;
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         else if(!m_Finish) //Eðer kullanýcý oyunu baþlattýysa
         {
 
-                transform.Translate(Vector3.right*m_horizontalInput*05f*Time.deltaTime);
+            transform.Translate(Vector3.right * m_horizontalInput * speed * Time.deltaTime);
         }
 
         if (m_Fail)
