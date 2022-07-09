@@ -104,7 +104,10 @@ public class PlayerController : MonoBehaviour
         }
         else if(!m_Finish) //Eðer kullanýcý oyunu baþlattýysa
         {
-
+            if (m_horizontalInput < -0.933f)
+                m_horizontalInput = -0.933f;
+            else if (m_horizontalInput > 0.993f)
+                m_horizontalInput = 0.993f;
             transform.Translate(Vector3.right * m_horizontalInput * speed * Time.deltaTime);
         }
 

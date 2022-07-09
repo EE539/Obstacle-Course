@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Horizontal Mandatory
   layers:
   - Default
   - TransparentFX
