@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody m_Rigidbody;
     private Vector3 m_Position;
 
-    private bool m_Running, m_LookAround, m_Dance;
+    private bool m_Running, m_LookAround, m_Dance, m_Finish;
     private float m_horizontalInput, waitTime = 19f, wait = 0f;
     private int choosenAnimation = 0;
 
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Position = transform.position;
 
+        m_Finish = false;
         m_Dance = false;
         m_LookAround = false;
         m_Running = false;
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!m_Running) //Eðer oyun baþlamadýysa bekleme animasyonlarýný aktifleþtir
+        if (!m_Running && !m_Finish) //Eðer oyun baþlamadýysa bekleme animasyonlarýný aktifleþtir
         {
             if(waitTime < wait && waitTime > 10)
             {
@@ -100,12 +101,27 @@ public class PlayerController : MonoBehaviour
             }
             wait += Time.deltaTime;
         }
-        else //Eðer kullanýcý oyunu baþlattýysa
+        else if(!m_Finish) //Eðer kullanýcý oyunu baþlattýysa
         {
 
-                transform.Translate(Vector3.right*m_horizontalInput*0.1f*Time.deltaTime);
+                transform.Translate(Vector3.right*m_horizontalInput*05f*Time.deltaTime);
         }
     
     }
-    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        m_Running = false;
+        m_Animator.SetBool("Running", m_Running);
+        string winner = "win";
+        if (collision.gameObject.tag.Equals("Finish"))
+        {
+            choosenAnimation = Random.Range(1, 6);
+            GetComponent<Rigidbody>().freezeRotation = true;
+            m_Finish = true;
+            m_Animator.SetBool("Finished", m_Finish);
+            winner = winner + choosenAnimation.ToString();
+            m_Animator.SetTrigger(winner);
+        }
+    }
 }
