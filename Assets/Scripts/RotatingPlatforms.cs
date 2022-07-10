@@ -12,21 +12,21 @@ public class RotatingPlatforms : MonoBehaviour
     {
         transform.Rotate(Vector3.forward * turnSpeed * turnAxis * Time.deltaTime, Space.World);
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         GameObject gameObject = collision.gameObject;
         Debug.Log(gameObject);
         if (gameObject.tag.Equals("Player"))
         {
-            gameObject.transform.parent = transform;
+            gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.right * turnSpeed * turnAxis * Time.deltaTime, ForceMode.VelocityChange);
         }
     }
-    private void OnCollisionExit(Collision collision)
+    /*private void OnCollisionExit(Collision collision)
     {
         GameObject gameObject = collision.gameObject;
         if (gameObject.tag.Equals("Player"))
         {
             gameObject.transform.parent = null;
         }
-    }
+    }*/
 }

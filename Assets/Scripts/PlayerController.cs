@@ -144,11 +144,11 @@ public class PlayerController : MonoBehaviour
 
         if (m_Fail)
         {
-            StartEndAnimation(1, 3, "fail", "Fail");
+            //StartEndAnimation(1, 3, "fail", "Fail");
         }
     
     }
-
+    /*
     private void OnCollisionExit(Collision collision)
     {
         Debug.Log("Collision Detected");
@@ -167,5 +167,5 @@ public class PlayerController : MonoBehaviour
         m_Animator.SetBool(whichAnimator, true);
         winOrFail = winOrFail + choosenAnimation.ToString();
         m_Animator.SetTrigger(winOrFail); 
-    }
+    }*/
 }
