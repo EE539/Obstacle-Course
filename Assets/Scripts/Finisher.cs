@@ -20,14 +20,27 @@ public class Finisher : MonoBehaviour
             
         }
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         GameObject gameObject = collision.gameObject;
         if (gameObject.tag.Equals("Player"))
         {
+            float playerSpeed = gameObject.GetComponent<PlayerController>().speed * Time.deltaTime;
+            gameObject.transform.Translate(Vector3.forward * playerSpeed);
+
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        GameObject gameObject = collision.gameObject;
+        Transform paintWall = GameObject.FindGameObjectWithTag("Painter").transform;
+        if (gameObject.tag.Equals("Player"))
+        {
+            gameObject.GetComponent<PlayerController>().m_Finish = true;
             myBrain.m_DefaultBlend = someCustomBlend;
             newCamera.gameObject.SetActive(true);
             currentCamera.gameObject.SetActive(false);
+            GameObject.FindGameObjectWithTag("Painter").GetComponent<PaintWall>().enabled = true;
         }
     }
 }

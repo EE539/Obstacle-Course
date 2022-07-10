@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
      Make rotating platform work*/
     private Animator m_Animator;
 
-    private bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
+    [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
     private int choosenAnimation = 0;
 
@@ -87,7 +87,6 @@ public class PlayerController : MonoBehaviour
     {
         if (m_painting)
         {
-            m_Finish = true;
             m_Animator.SetBool("Finished", m_Finish);
         }
         else if (!m_Running && !m_Finish) //Eðer oyun baþlamadýysa bekleme animasyonlarýný aktifleþtir

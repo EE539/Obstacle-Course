@@ -145,6 +145,56 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Painting",
+            "id": "40971f29-2845-4442-bd86-94f292ea6c96",
+            "actions": [
+                {
+                    "name": "Paint",
+                    "type": "PassThrough",
+                    "id": "a36a51a3-402f-4006-b550-d703392dd353",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Touch",
+                    "id": "e3e677cc-6dd4-45cb-a3f1-0f14e45b3dbe",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Paint",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "3e4eef75-175f-418f-8ada-c059aae4bb83",
+                    "path": "<Pointer>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Paint",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "057d9e93-a729-40fb-b5f8-e1a81af5fd71",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Paint",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
         }
     ],
     "controlSchemes": []
