@@ -149,9 +149,9 @@ public class PlayerController : MonoBehaviour
     
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionExit(Collision collision)
     {
-        
+        Debug.Log("Collision Detected");
         if (collision.gameObject.tag.Equals("Finish"))
         {
             Debug.Log("Entered");
@@ -161,9 +161,7 @@ public class PlayerController : MonoBehaviour
 
     void StartEndAnimation(int begin, int endPlusOne, string winOrFail, string whichAnimator)
     {
-        m_Running = false;
-        m_Animator.SetBool("Running", m_Running);
-
+       
         choosenAnimation = Random.Range(begin, endPlusOne);
         GetComponent<Rigidbody>().freezeRotation = true;
         m_Animator.SetBool(whichAnimator, true);
