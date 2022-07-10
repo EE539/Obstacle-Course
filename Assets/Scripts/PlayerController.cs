@@ -10,15 +10,14 @@ public class PlayerController : MonoBehaviour
      Change the way movement works (wasd)
      Make rotating platform work*/
     private Animator m_Animator;
-    private Rigidbody m_Rigidbody;
-    private Vector3 m_Position;
 
     private bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
     private int choosenAnimation = 0;
 
-    [SerializeField]public float horizontalMovement = 0f, verticalMovement = 0f, speed = 0.5f, horizontalSpeed = 100;
-    
+    public float horizontalMovement = 0f, verticalMovement = 0f, speed = 0.5f, horizontalSpeed = 100;
+    [HideInInspector] public bool m_painting;
+
     public InputActionAsset Map;
     InputActionMap gameplay;
     InputAction startGame, movePlayerHorizontal, movePlayerVertical;
@@ -74,20 +73,24 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_Position = transform.position;
 
         m_Finish = false;
         m_Fail = false;
         m_Dance = false;
         m_LookAround = false;
         m_Running = false;
+        m_painting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!m_Running && !m_Finish) //Eðer oyun baþlamadýysa bekleme animasyonlarýný aktifleþtir
+        if (m_painting)
+        {
+            m_Finish = true;
+            m_Animator.SetBool("Finished", m_Finish);
+        }
+        else if (!m_Running && !m_Finish) //Eðer oyun baþlamadýysa bekleme animasyonlarýný aktifleþtir
         {
             if (waitTime < wait && waitTime > 10)
             {
@@ -148,24 +151,5 @@ public class PlayerController : MonoBehaviour
         }
     
     }
-    /*
-    private void OnCollisionExit(Collision collision)
-    {
-        Debug.Log("Collision Detected");
-        if (collision.gameObject.tag.Equals("Finish"))
-        {
-            Debug.Log("Entered");
-            StartEndAnimation(1, 6, "win", "Finished");
-        }
-    }
-
-    void StartEndAnimation(int begin, int endPlusOne, string winOrFail, string whichAnimator)
-    {
-       
-        choosenAnimation = Random.Range(begin, endPlusOne);
-        GetComponent<Rigidbody>().freezeRotation = true;
-        m_Animator.SetBool(whichAnimator, true);
-        winOrFail = winOrFail + choosenAnimation.ToString();
-        m_Animator.SetTrigger(winOrFail); 
-    }*/
+    
 }

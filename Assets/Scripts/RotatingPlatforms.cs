@@ -21,12 +21,4 @@ public class RotatingPlatforms : MonoBehaviour
             gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.right * turnSpeed * turnAxis * Time.deltaTime, ForceMode.VelocityChange);
         }
     }
-    /*private void OnCollisionExit(Collision collision)
-    {
-        GameObject gameObject = collision.gameObject;
-        if (gameObject.tag.Equals("Player"))
-        {
-            gameObject.transform.parent = null;
-        }
-    }*/
 }
