@@ -18,7 +18,6 @@ public class RotatingPlatforms : MonoBehaviour
         Debug.Log(gameObject);
         if (gameObject.tag.Equals("Player"))
         {
-            Debug.Log("We are the champion!");
             gameObject.transform.parent = transform;
         }
     }
@@ -27,7 +26,6 @@ public class RotatingPlatforms : MonoBehaviour
         GameObject gameObject = collision.gameObject;
         if (gameObject.tag.Equals("Player"))
         {
-            Debug.Log("WE ARE THE CHAAAAMPIOOON!");
             gameObject.transform.parent = null;
         }
     }
