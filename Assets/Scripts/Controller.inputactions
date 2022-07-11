@@ -152,12 +152,12 @@
             "actions": [
                 {
                     "name": "Paint",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "a36a51a3-402f-4006-b550-d703392dd353",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
