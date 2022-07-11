@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     /*To do
      Change the way movement works (wasd)
      Make rotating platform work*/
-    private Animator m_Animator;
+    [HideInInspector] public Animator m_Animator;
 
     [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
@@ -149,6 +149,11 @@ public class PlayerController : MonoBehaviour
             //StartEndAnimation(1, 3, "fail", "Fail");
         }
     
+    }
+
+    public void GetHit()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y, 1);
     }
     
 }

@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Platform
   - Painter
+  - Left Hit
+  - Right Hit
+  - Obstacle
+  - Front Hit
   layers:
   - Default
   - TransparentFX
