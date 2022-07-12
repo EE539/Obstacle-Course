@@ -10,15 +10,22 @@ public class RotatingPlatforms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.forward * turnSpeed * turnAxis * Time.deltaTime, Space.World);
+        transform.Rotate(Vector3.forward * turnSpeed * turnAxis * Time.deltaTime);
     }
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        GameObject gameObject = collision.gameObject;
-        Debug.Log(gameObject);
-        if (gameObject.tag.Equals("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.right * turnSpeed * turnAxis * Time.deltaTime, ForceMode.VelocityChange);
+            collision.transform.parent = transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.transform.rotation = Quaternion.Euler(collision.gameObject.transform.eulerAngles.x, collision.gameObject.transform.eulerAngles.y, 0);
+            collision.transform.parent = null;
         }
     }
 }

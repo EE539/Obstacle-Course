@@ -33,10 +33,24 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        int zAxis = 0;
+        float time = 0;
         if (player.GetComponent<PlayerController>().start)
         {
+            if (zAxis == Mathf.FloorToInt(transform.position.z))
+            {
+                time += Time.deltaTime;
+                if (time > 3)    
+                    enemy_Animatior.SetTrigger("jump");
+            }
+            else
+            {
+                zAxis = (int)transform.position.z;
+                time = 0;
+            }
             enemy_Animatior.SetBool("start running", true);
             nav.SetDestination(finishLine.transform.position);
+            zAxis = Mathf.FloorToInt(transform.position.z);
         }
     }
 }

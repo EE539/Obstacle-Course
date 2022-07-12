@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector3.forward * verticalMovement);
 
         }
-
+        
         if (m_Fail)
         {
             //StartEndAnimation(1, 3, "fail", "Fail");
