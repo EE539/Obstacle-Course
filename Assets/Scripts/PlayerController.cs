@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     /*To do
      Change the way movement works (wasd)
      Make rotating platform work*/
-    [HideInInspector] public Animator m_Animator;
+    private Animator m_Animator;
 
     [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
