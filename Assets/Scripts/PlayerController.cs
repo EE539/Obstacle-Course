@@ -150,10 +150,10 @@ public class PlayerController : MonoBehaviour
         }
     
     }
-
+    /*
     public void GetHit()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, 1);
     }
-    
+    */
 }
