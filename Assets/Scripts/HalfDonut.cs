@@ -24,7 +24,6 @@ public class HalfDonut : MonoBehaviour
 
     void MoveDonut()
     {
-        Debug.Log("DONUUUUUUUUUUUUUUUT");
         if (transform.localPosition.x <= minBorder)
         {
             speedOfDonut /=-2f;
