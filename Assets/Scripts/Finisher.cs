@@ -42,6 +42,7 @@ public class Finisher : MonoBehaviour
             currentCamera.gameObject.SetActive(false);
             GameObject.FindGameObjectWithTag("Painter").GetComponent<PaintWall>().enabled = true;
         }
+        
     }
 }
 

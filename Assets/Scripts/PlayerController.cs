@@ -143,7 +143,8 @@ public class PlayerController : MonoBehaviour
             transform.Translate(Vector3.forward * verticalMovement);
 
         }
-        
+        if(transform.rotation.z != 0 && transform.parent == null)
+            transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
         if (m_Fail)
         {
             //StartEndAnimation(1, 3, "fail", "Fail");

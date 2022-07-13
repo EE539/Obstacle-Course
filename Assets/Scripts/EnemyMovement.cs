@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private Animator enemy_Animatior;
+    [HideInInspector] public Animator enemy_Animatior;
     private GameObject player, finishLine;
     private NavMeshAgent nav;
     private float moveSpeed, rotateSpeed;
@@ -26,31 +26,27 @@ public class EnemyMovement : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         finishLine = GameObject.FindWithTag("Finish");
         nav = transform.GetComponent<NavMeshAgent>();
-        Debug.Log(nav);
-        
         //moveSpeed = player.GetComponent<PlayerController>().speed;
     }
     // Update is called once per frame
     void Update()
     {
-        int zAxis = 0;
-        float time = 0;
+        float dist = Vector3.Distance(transform.position, nav.destination);
         if (player.GetComponent<PlayerController>().start)
         {
-            if (zAxis == Mathf.FloorToInt(transform.position.z))
+            if (dist <= 1)
             {
-                time += Time.deltaTime;
-                if (time > 3)    
-                    enemy_Animatior.SetTrigger("jump");
+                enemy_Animatior.SetBool("start running", true);
+                nav.SetDestination(finishLine.transform.position);
             }
             else
             {
-                zAxis = (int)transform.position.z;
-                time = 0;
+                enemy_Animatior.SetBool("start running", false);
+                int chooseEnd = Random.Range(1, 4);
+                enemy_Animatior.SetTrigger("win" + chooseEnd);
+
             }
-            enemy_Animatior.SetBool("start running", true);
-            nav.SetDestination(finishLine.transform.position);
-            zAxis = Mathf.FloorToInt(transform.position.z);
+
         }
     }
 }

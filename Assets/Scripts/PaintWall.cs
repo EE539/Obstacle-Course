@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class PaintWall : MonoBehaviour
 {
+    Collider m_Collider;
     Vector3 wallPosition, pointerPosition = Vector3.zero;
     Color redColor = Color.red;
     public float wallSpeed = 10;
+    public int brushSize = 10;
     Texture2D wallTexture;
 
     public InputActionAsset Map;
@@ -27,9 +29,9 @@ public class PaintWall : MonoBehaviour
     private void PaintWallController_performed(InputAction.CallbackContext context)
     {
         pointerPosition = context.ReadValue<Vector2>();
-        pointerPosition.z = 10;
+        float distance = Vector3.Dot(transform.position - Camera.main.transform.position, Camera.main.transform.forward);
+        pointerPosition.z = distance;
         pointerPosition = Camera.main.ScreenToWorldPoint(pointerPosition);
-
         paintStart = true;
     }
 
@@ -45,6 +47,7 @@ public class PaintWall : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_Collider = GetComponent<Collider>();
         wallPosition = new Vector3(transform.position.x , 0.6f, transform.position.z);
         wallTexture = new Texture2D(128, 128);
         GetComponent<Renderer>().material.mainTexture = wallTexture;
@@ -59,15 +62,26 @@ public class PaintWall : MonoBehaviour
         }
         if (paintStart)
         {
-            for (int y = 0; y < wallTexture.height; y++)
+            float minX = m_Collider.bounds.min.x; //minimum point in x axis of the paint canvas
+            float minY = m_Collider.bounds.min.y; //minimum point in y axis of the paint canvas
+            float maxX = m_Collider.bounds.max.x; //maximum point in x axis of the paint canvas
+            float maxY = m_Collider.bounds.max.y; //maximum point in y axis of the paint canvas
+            if((pointerPosition.x >= minX && pointerPosition.x <= maxX) && (pointerPosition.y >= minY && pointerPosition.y <= maxY))
+            {
+                Color color = Color.red;
+                int pointerPositionX = Mathf.FloorToInt(pointerPosition.x - minX), pointerPositionY = Mathf.FloorToInt(pointerPosition.y - minY);
+                wallTexture.SetPixel(pointerPositionX, pointerPositionY, color);
+                wallTexture.Apply();
+            }
+            /*for (int y = 0; y < wallTexture.height; y++)
             {
                 for (int x = 0; x < wallTexture.width; x++)
                 {
                     Color color = Color.red;
                     wallTexture.SetPixel(x, y, color);
                 }
-            }
-            wallTexture.Apply();
+            }*/
+            
         }
     }
 }
