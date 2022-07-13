@@ -34,10 +34,10 @@ public class EnemyMovement : MonoBehaviour
         float dist = Vector3.Distance(transform.position, nav.destination);
         if (player.GetComponent<PlayerController>().start)
         {
-            if (dist <= 1)
+            nav.SetDestination(finishLine.transform.position);
+            if (dist > 1)
             {
                 enemy_Animatior.SetBool("start running", true);
-                nav.SetDestination(finishLine.transform.position);
             }
             else
             {
