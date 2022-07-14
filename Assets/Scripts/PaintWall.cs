@@ -28,8 +28,6 @@ public class PaintWall : MonoBehaviour
         gameplay = Map.FindActionMap("Painting");
         paintWallController = gameplay.FindAction("Paint");
 
-        paintWallController.performed += PaintWallController_performed;
-        paintWallController.canceled += PaintWallController_canceled;
     }
 
     private void PaintWallController_canceled(InputAction.CallbackContext obj)
@@ -58,6 +56,7 @@ public class PaintWall : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(WaitABit());
         m_Collider = GetComponent<Collider>();
         wallPosition = new Vector3(transform.position.x, 0.6f, transform.position.z);
         wallTexture = new Texture2D(width, height);
@@ -72,11 +71,7 @@ public class PaintWall : MonoBehaviour
         {
             transform.Translate(Vector3.up * wallSpeed * Time.deltaTime);
         }
-        else
-        {
-            canvasPercantage.gameObject.SetActive(true);
-            canvasPercantageText.gameObject.SetActive(true);
-        }
+ 
         if (paintStart)
         {
             float minX = m_Collider.bounds.min.x; //minimum point in x axis of the paint canvas
@@ -106,7 +101,7 @@ public class PaintWall : MonoBehaviour
                 }
                 float value = paintedPixelCount / totalPixel;
                 canvasPercantage.value = value;
-                canvasPercantageText.text = (value * 100).ToString("F0") + "% has been completed";
+                canvasPercantageText.text = (value * 100).ToString("F2") + "% has been completed";
                 if (Mathf.Approximately(paintedPixelCount/10000f, 1f))
                 {
                     Debug.Log("Yay");
@@ -124,5 +119,15 @@ public class PaintWall : MonoBehaviour
             }*/
             
         }
+    }
+
+    IEnumerator WaitABit()
+    {
+        yield return new WaitForSeconds(2f);
+        canvasPercantage.gameObject.SetActive(true);
+        canvasPercantageText.gameObject.SetActive(true);
+        paintWallController.performed += PaintWallController_performed;
+        paintWallController.canceled += PaintWallController_canceled;
+
     }
 }
