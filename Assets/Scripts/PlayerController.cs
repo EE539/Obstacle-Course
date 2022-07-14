@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    public Text beginTxt;
     private Animator m_Animator;
 
     [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private void StartGame_performed(InputAction.CallbackContext context)
     {
         start = true;
+        beginTxt.gameObject.SetActive(false);
     }
 
     private void OnEnable()
