@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PaintWall : MonoBehaviour
 {
+    public Slider canvasPercantage;
+    public Text canvasPercantageText;
     Collider m_Collider;
     Vector3 wallPosition, pointerPosition = Vector3.zero;
     Color redColor = Color.red;
     public float wallSpeed = 10;
-    public int brushSize = 10;
+    public int brushSize = 10, width = 100, height = 100;
     Texture2D wallTexture;
+    private float paintedPixelCount = 0f;
+    private float totalPixel;
 
     public InputActionAsset Map;
     InputActionMap gameplay;
@@ -54,10 +59,9 @@ public class PaintWall : MonoBehaviour
     void Start()
     {
         m_Collider = GetComponent<Collider>();
-        int width = Mathf.Abs(Mathf.FloorToInt(m_Collider.bounds.min.x) - Mathf.FloorToInt(m_Collider.bounds.max.x));
-        int height = Mathf.Abs(Mathf.FloorToInt(m_Collider.bounds.min.y) - Mathf.FloorToInt(m_Collider.bounds.max.y));
         wallPosition = new Vector3(transform.position.x, 0.6f, transform.position.z);
-        wallTexture = new Texture2D(10, 10);
+        wallTexture = new Texture2D(width, height);
+        totalPixel = width * height;
         GetComponent<Renderer>().material.mainTexture = wallTexture;
     }
 
@@ -68,36 +72,46 @@ public class PaintWall : MonoBehaviour
         {
             transform.Translate(Vector3.up * wallSpeed * Time.deltaTime);
         }
+        else
+        {
+            canvasPercantage.gameObject.SetActive(true);
+            canvasPercantageText.gameObject.SetActive(true);
+        }
         if (paintStart)
         {
             float minX = m_Collider.bounds.min.x; //minimum point in x axis of the paint canvas
             float minY = m_Collider.bounds.min.y; //minimum point in y axis of the paint canvas
             float maxX = m_Collider.bounds.max.x; //maximum point in x axis of the paint canvas
             float maxY = m_Collider.bounds.max.y; //maximum point in y axis of the paint canvas
-            Debug.Log("minX = " + minX + "minY = " + minY + "maxX = " + maxX + "maxY = " + maxY);
             if((pointerPosition.x >= minX && pointerPosition.x <= maxX) && (pointerPosition.y >= minY && pointerPosition.y <= maxY))
             {
                 Color color = Color.red;
-                Debug.Log("Pressed Point = " + pointerPosition);
-                int pointerPositionX = Mathf.FloorToInt((pointerPosition.x * -brushSize)); // (pointerPosition.x - minX) / (Mathf.Sqrt(minX * minY) / 100)
-                int pointerPositionY = Mathf.FloorToInt((pointerPosition.y * -brushSize)); //(pointerPosition.y - minY) / (Mathf.Sqrt(minX * minY) / 100) 
-                Debug.Log("Pointer position X = " + pointerPositionX + " and Pointer Poisition Y = " + pointerPositionY);
-                wallTexture.SetPixel(pointerPositionX, pointerPositionY, color);
-                /*
-                int pointerPositionX = Mathf.FloorToInt((pointerPosition.x - 0.3f) / 0.09f * 1.21f); // (pointerPosition.x - minX) / (Mathf.Sqrt(minX * minY) / 100)
-                int pointerPositionY = Mathf.FloorToInt((pointerPosition.y + 11f) / 0.09f * 1.21f); //(pointerPosition.y - minY) / (Mathf.Sqrt(minX * minY) / 100) 
+                int pointerPositionX = Mathf.FloorToInt(((pointerPosition.x - minX) * -100) ); //Where is the point in x axis according to the cube
+                int pointerPositionY = Mathf.FloorToInt(((pointerPosition.y - minY) * -100) ); //Where is the point in y axis according to the cube
+                
+                //Brush settings
+                int xLimit = Mathf.Min(pointerPositionX + brushSize + 1, 100);
+                int yLimit = Mathf.Min(pointerPositionY + brushSize + 1, 100);
 
-                int xLimit = Mathf.Min(pointerPositionX + brushSize + 1, 128);
-                int yLimit = Mathf.Min(pointerPositionY + brushSize + 1, 128);
-
-                for (int y = Mathf.FloorToInt(minY); y < yLimit; y++)
+                for (int y = pointerPositionY; y < yLimit; y++)
                 {
-                    for (int x = Mathf.FloorToInt(minX); x < xLimit; x++)
+                    for (int x = pointerPositionX; x < xLimit; x++)
                     {
-                        if(Mathf.Sqrt(pointerPositionX - x) + Mathf.Sqrt(pointerPositionY - y) < Mathf.Sqrt(brushSize))
-                            wallTexture.SetPixel(x, y, color);
+                        if (!wallTexture.GetPixel(x, y).Equals(Color.red))
+                        {
+                            wallTexture.SetPixel(x, y, Color.red);
+                            paintedPixelCount += 1.0f;
+                        }
                     }
-                }*/
+                }
+                float value = paintedPixelCount / totalPixel;
+                canvasPercantage.value = value;
+                canvasPercantageText.text = (value * 100).ToString("F0") + "% has been completed";
+                if (Mathf.Approximately(paintedPixelCount/10000f, 1f))
+                {
+                    Debug.Log("Yay");
+                }
+               
                 wallTexture.Apply();
             }
             /*for (int y = 0; y < wallTexture.height; y++)
