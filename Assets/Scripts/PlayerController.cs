@@ -6,9 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    /*To do
-     Change the way movement works (wasd)
-     Make rotating platform work*/
     private Animator m_Animator;
 
     [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
@@ -28,11 +25,6 @@ public class PlayerController : MonoBehaviour
         movePlayerHorizontal = gameplay.FindAction("Move Horizontal");
         movePlayerVertical = gameplay.FindAction("Move Vertical");
 
-        startGame.performed += StartGame_performed;
-        movePlayerHorizontal.performed += MovePlayerHorizontal_performed;
-        movePlayerVertical.performed += MovePlayerVertical_performed;
-
-        movePlayerHorizontal.canceled += MovePlayerHorizontal_canceled;
     }
 
     private void MovePlayerHorizontal_canceled(InputAction.CallbackContext obj)
@@ -73,7 +65,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-
+        StartCoroutine(WaitABit());
         m_Finish = false;
         m_Fail = false;
         m_Dance = false;
@@ -151,10 +143,13 @@ public class PlayerController : MonoBehaviour
         }
     
     }
-    /*
-    public void GetHit()
+    IEnumerator WaitABit()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, 1);
+        yield return new WaitForSeconds(6.1f);
+        startGame.performed += StartGame_performed;
+        movePlayerHorizontal.performed += MovePlayerHorizontal_performed;
+        movePlayerVertical.performed += MovePlayerVertical_performed;
+
+        movePlayerHorizontal.canceled += MovePlayerHorizontal_canceled;
     }
-    */
 }

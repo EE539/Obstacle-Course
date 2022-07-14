@@ -8,21 +8,24 @@ public class PaintWall : MonoBehaviour
 {
     public Slider canvasPercantage;
     public Text canvasPercantageText;
-    Collider m_Collider;
-    Vector3 wallPosition, pointerPosition = Vector3.zero;
-    Color redColor = Color.red;
+    private Collider m_Collider;
+    private Texture2D wallTexture;
+
+    private Vector3 wallPosition, pointerPosition = Vector3.zero;
+    private Color redColor = Color.red;
+
     public float wallSpeed = 10;
     public int brushSize = 10, width = 100, height = 100;
-    Texture2D wallTexture;
     private float paintedPixelCount = 0f;
     private float totalPixel;
-
-    public InputActionAsset Map;
-    InputActionMap gameplay;
-    InputAction paintWallController;
-
-    GameObject player;
     private bool paintStart = false;
+    
+    public InputActionAsset Map;
+    private InputActionMap gameplay;
+    private InputAction paintWallController;
+
+    private GameObject player;
+    
     private void Awake()
     {
         gameplay = Map.FindActionMap("Painting");
@@ -109,19 +112,10 @@ public class PaintWall : MonoBehaviour
                
                 wallTexture.Apply();
             }
-            /*for (int y = 0; y < wallTexture.height; y++)
-            {
-                for (int x = 0; x < wallTexture.width; x++)
-                {
-                    Color color = Color.red;
-                    wallTexture.SetPixel(x, y, color);
-                }
-            }*/
-            
         }
     }
 
-    IEnumerator WaitABit()
+    IEnumerator WaitABit() //wait for everything to load then activate drawing
     {
         yield return new WaitForSeconds(2f);
         canvasPercantage.gameObject.SetActive(true);
