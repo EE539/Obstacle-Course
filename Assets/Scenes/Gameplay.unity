@@ -2317,6 +2317,7 @@ MonoBehaviour:
   currentCamera: {fileID: 1532233054}
   newCamera: {fileID: 1485113356}
   myBrain: {fileID: 963194229}
+  congratsTxt: {fileID: 1029570699}
 --- !u!1 &229794846 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e790e777ccf6943448b49318c533e638,

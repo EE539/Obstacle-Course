@@ -74,6 +74,7 @@ public class Finisher : MonoBehaviour
     void RestartLevel()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().enabled = true;
+        counter = 0;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex; //Get the index of the scene
         SceneManager.LoadScene(currentSceneIndex);
     }

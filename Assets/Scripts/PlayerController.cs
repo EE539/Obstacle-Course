@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-        StartCoroutine(WaitABit());
+        Invoke("WaitABit", 6.1f);
         m_Finish = false;
         m_Fail = false;
         m_Dance = false;
@@ -140,15 +140,16 @@ public class PlayerController : MonoBehaviour
         }
         if(transform.rotation.z != 0 && transform.parent == null)
             transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+        if (transform.rotation.x != 0 && transform.parent == null)
+            transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, transform.eulerAngles.z);
         if (m_Fail)
         {
             //StartEndAnimation(1, 3, "fail", "Fail");
         }
     
     }
-    IEnumerator WaitABit()
+    void WaitABit()
     {
-        yield return new WaitForSeconds(6.1f);
         startGame.performed += StartGame_performed;
         movePlayerHorizontal.performed += MovePlayerHorizontal_performed;
         movePlayerVertical.performed += MovePlayerVertical_performed;
