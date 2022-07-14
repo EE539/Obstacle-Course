@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 using Cinemachine;
+
 
 public class Finisher : MonoBehaviour
 {
@@ -10,14 +13,32 @@ public class Finisher : MonoBehaviour
     public CinemachineVirtualCamera newCamera;
     public CinemachineBrain myBrain;
 
+    public Text failTxt;
+    [HideInInspector] public static int counter = 0;
     private void OnCollisionEnter(Collision collision)
     {
         GameObject gameObject = collision.gameObject;
         if (gameObject.tag.Equals("Player"))
         {
+            
             Debug.Log("Collision Detected in finisher");
             gameObject.GetComponent<PlayerController>().m_painting = true;
+            counter = 0;
             
+        }
+        if (gameObject.tag.Equals("Enemy"))
+        {
+            counter++;
+        }
+        if(counter == 5)
+        {
+            int failAnimator = Random.Range(1, 3);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().m_Animator.SetBool("Fail", true);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().m_Animator.SetBool("Finished", true);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().m_Animator.SetTrigger("fail" + failAnimator);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().enabled = false;
+            failTxt.gameObject.SetActive(true);
+            Invoke("RestartLevel", 8);
         }
     }
     private void OnCollisionStay(Collision collision)
@@ -41,8 +62,20 @@ public class Finisher : MonoBehaviour
             newCamera.gameObject.SetActive(true);
             currentCamera.gameObject.SetActive(false);
             GameObject.FindGameObjectWithTag("Painter").GetComponent<PaintWall>().enabled = true;
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                enemy.GetComponent<EnemyMovement>().nav.isStopped = true;
+            }
         }
         
+    }
+    void RestartLevel()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().enabled = true;
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex; //Get the index of the scene
+        SceneManager.LoadScene(currentSceneIndex);
     }
 }
 

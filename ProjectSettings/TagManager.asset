@@ -10,6 +10,7 @@ TagManager:
   - Right Hit
   - Obstacle
   - Front Hit
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -24,7 +24,7 @@ public class PaintWall : MonoBehaviour
     private InputActionMap gameplay;
     private InputAction paintWallController;
 
-    private GameObject player;
+    [HideInInspector] public bool paintFinish;
     
     private void Awake()
     {
@@ -107,7 +107,9 @@ public class PaintWall : MonoBehaviour
                 canvasPercantageText.text = (value * 100).ToString("F2") + "% has been completed";
                 if (Mathf.Approximately(paintedPixelCount/10000f, 1f))
                 {
-                    Debug.Log("Yay");
+                    paintFinish = true;
+                    canvasPercantage.gameObject.SetActive(false);
+                    canvasPercantageText.gameObject.SetActive(false);
                 }
                
                 wallTexture.Apply();

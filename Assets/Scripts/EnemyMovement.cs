@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
 {
     [HideInInspector] public Animator enemy_Animatior;
     private GameObject player, finishLine;
-    private NavMeshAgent nav;
+    [HideInInspector] public NavMeshAgent nav;
     private float moveSpeed, rotateSpeed;
 
     private void Awake()
@@ -35,7 +35,7 @@ public class EnemyMovement : MonoBehaviour
         if (player.GetComponent<PlayerController>().start)
         {
             nav.SetDestination(finishLine.transform.position);
-            if (dist > 1)
+            if (dist > 0)
             {
                 enemy_Animatior.SetBool("start running", true);
             }

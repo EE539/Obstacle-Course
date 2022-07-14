@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Text beginTxt;
-    private Animator m_Animator;
+    [HideInInspector] public Animator m_Animator;
 
     [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
