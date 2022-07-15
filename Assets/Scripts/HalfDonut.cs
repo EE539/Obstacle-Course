@@ -12,7 +12,6 @@ public class HalfDonut : MonoBehaviour
         maxBorder = transform.localPosition.x;
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;

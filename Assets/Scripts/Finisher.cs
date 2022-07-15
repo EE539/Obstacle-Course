@@ -14,6 +14,7 @@ public class Finisher : MonoBehaviour
     public CinemachineBrain myBrain;
 
     public Text failTxt;
+
     [HideInInspector] public static int counter = 0;
     private void OnCollisionEnter(Collision collision)
     {

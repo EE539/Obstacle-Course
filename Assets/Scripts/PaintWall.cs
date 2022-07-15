@@ -95,9 +95,9 @@ public class PaintWall : MonoBehaviour
                 {
                     for (int x = pointerPositionX; x < xLimit; x++)
                     {
-                        if (!wallTexture.GetPixel(x, y).Equals(Color.red))
+                        if (!wallTexture.GetPixel(x, y).Equals(redColor))
                         {
-                            wallTexture.SetPixel(x, y, Color.red);
+                            wallTexture.SetPixel(x, y, redColor);
                             paintedPixelCount += 1.0f;
                         }
                     }

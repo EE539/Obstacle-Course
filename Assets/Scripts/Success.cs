@@ -17,7 +17,6 @@ public class Success : MonoBehaviour
     private bool success;
     private int winNum = 0;
 
-    // Update is called once per frame
     void Update()
     {
         success = GetComponent<PaintWall>().paintFinish;

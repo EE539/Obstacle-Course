@@ -10,12 +10,11 @@ public class PlayerController : MonoBehaviour
     public Text beginTxt;
     [HideInInspector] public Animator m_Animator;
 
-    [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, start;
+    [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, m_painting, start;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
     private int choosenAnimation = 0;
 
     public float horizontalMovement = 0f, verticalMovement = 0f, speed = 0.5f, horizontalSpeed = 100;
-    [HideInInspector] public bool m_painting;
 
     public InputActionAsset Map;
     InputActionMap gameplay;
@@ -47,6 +46,8 @@ public class PlayerController : MonoBehaviour
     private void MovePlayerHorizontal_performed(InputAction.CallbackContext context)
     {
         m_horizontalInput = context.ReadValue<float>();
+        if(m_horizontalInput != 1 && m_horizontalInput != -1)       
+            m_horizontalInput = m_horizontalInput *Time.deltaTime; //Tryed to tune down touch sensitivity
         m_Running = true;
     }
 
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (m_painting)
         {

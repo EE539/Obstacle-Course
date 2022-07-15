@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 public class RankSystem : MonoBehaviour
 {
-    public List<GameObject> players = new List<GameObject> (); //elemt 0 is our player ;)
+    public List<GameObject> players = new List<GameObject> (); //element 0 is our player ;)
     public Text rankText;
-    // Start is called before the first frame update
     void Start()
     {
         FindRank();

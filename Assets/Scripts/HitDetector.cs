@@ -11,7 +11,6 @@ public class HitDetector : MonoBehaviour
         
         if (hitObject.tag.Equals("Obstacle"))
         {
-            //GetComponentInParent<PlayerController>().GetHit();
             transform.position = Vector3.forward;
         }
     }

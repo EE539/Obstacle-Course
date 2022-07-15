@@ -7,7 +7,6 @@ public class RotatingPlatforms : MonoBehaviour
     public float turnSpeed;
     public int turnAxis;
 
-    // Update is called once per frame
     void Update()
     {
         transform.Rotate(Vector3.forward * turnSpeed * turnAxis * Time.deltaTime);

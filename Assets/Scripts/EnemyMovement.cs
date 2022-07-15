@@ -20,15 +20,12 @@ public class EnemyMovement : MonoBehaviour
             enemy_Animatior.SetTrigger("wait"+chooseAnimation);
         }
     }
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         finishLine = GameObject.FindWithTag("Finish");
         nav = transform.GetComponent<NavMeshAgent>();
-        //moveSpeed = player.GetComponent<PlayerController>().speed;
     }
-    // Update is called once per frame
     void Update()
     {
         float dist = Vector3.Distance(transform.position, nav.destination);
