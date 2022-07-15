@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public Text beginTxt;
     [HideInInspector] public Animator m_Animator;
 
-    [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail, m_painting, start;
+    [HideInInspector] public bool m_Running, m_LookAround, m_Dance, m_Finish, m_Fail,  start, m_painting;
     private float m_horizontalInput, m_verticalInput, waitTime = 19f, wait = 0f;
     private int choosenAnimation = 0;
 
